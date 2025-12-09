@@ -14,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 const tasksFilePath = path.join(__dirname, 'tasks.json');
+const frontendPath = path.join(__dirname, '..', 'frontend');
 
 // Helper function to read tasks from the JSON file
 const readTasks = async () => {
@@ -88,6 +89,12 @@ app.post('/tasks/:id/suggest-subtasks', async (req, res) => {
     ];
 
     res.json(suggestions);
+});
+
+// Serve static frontend
+app.use(express.static(frontendPath));
+app.use((req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
 
